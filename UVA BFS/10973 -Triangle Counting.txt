@@ -1,0 +1,89 @@
+// ============================================================================
+// Name        : Test.cpp
+// Author      : Taha Mostafa
+// Version     :
+// Copyright   : Your copyright notice
+// Description : Hello World in C++, Ansi-style
+// ============================================================================
+
+#include <bits/stdc++.h>
+
+using namespace std;
+
+#define all(v)              ((v).begin()), ((v).end())
+#define sz(v)               ((int)((v).size()))
+#define cin_int(x)			scanf("%d",&x)
+#define cin_char(x)			scanf("%c",&x)
+#define cout_int(x)			printf("%d",x)
+#define cout_int_ln(x)		printf("%d\n",x)
+#define cout_char(x)		printf("%c",x)
+#define cout_char_ln(x)		printf("%c\n",x)
+#define clr(v, d)           memset(v, d, sizeof(v))
+#define rep(i, v)       for(int i=0;i<sz(v);++i)
+#define lp(i, n)        for(int i=0;i<(int)(n);++i)
+#define lpi(i, j, n)    for(int i=(j);i<(int)(n);++i)
+#define lpd(i, j, n)    for(int i=(j);i>=(int)(n);--i)
+#define max(i,j)        ((i>j)?i:j)
+ 
+typedef long long         ll;
+const ll OO = 1e11+2;
+ const int INF = (int)1e6+2;
+
+const double EPS = (1e-7);
+int dcmp(double x, double y) {  return fabs(x-y) <= EPS ? 0 : x < y ? -1 : 1; }
+ 
+#define pb                  push_back
+#define MP                  make_pair
+#define P(x)                cout<<#x<<" = { "<<x<<" }\n"
+#define PI acos(-1.00)
+typedef long double       ld;
+typedef vector<int>       vi;
+typedef vector<double>    vd;
+typedef vector< vi >      vvi;
+typedef vector< vd >      vvd;
+typedef pair<int,int> ii;
+typedef pair<int,ii> iii;
+
+int dx[] = {1, -1, 0, 0};
+int dy[] = {0, 0, 1, -1};
+
+int main() {
+
+
+	// freopen("input_here.in", "rt", stdin);
+	// freopen("interesting.in", "rt", stdin);
+	
+	int T,n,m,x,y;
+	cin_int(T);
+	while(T--) {
+		scanf("%d%d",&n,&m);
+
+		vector<vector<bool> > mat(n,vector<bool>(n,0));
+		for (int i = 0; i < m; ++i)
+		{
+			scanf("%d%d",&x,&y);
+			--x,--y;
+			mat[x][y]=mat[y][x]=1;
+		}
+		int cnt(0);
+
+		for (int i = 0; i < n-2; ++i)
+		{
+			for (int j = i+1; j < n-1; ++j)
+			{
+				if(!mat[i][j]) continue;
+				for (int k = j+1; k < n; ++k)
+				{
+					if(mat[i][k] && mat[j][k])
+					cnt++;
+				}
+			}
+		}
+
+	   cout_int_ln(cnt);
+	
+
+	}
+
+return 0;
+}

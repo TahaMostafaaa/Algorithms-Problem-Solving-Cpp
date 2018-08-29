@@ -1,0 +1,100 @@
+// ============================================================================
+// Name        : Test.cpp
+// Author      : Taha Mostafa
+// Version     :
+// Copyright   : Your copyright notice
+// Description : Hello World in C++, Ansi-style
+// ============================================================================
+
+#include <bits/stdc++.h>
+
+using namespace std;
+
+#define all(v)              ((v).begin()), ((v).end())
+#define sz(v)               ((int)((v).size()))
+#define cin_int(x)			scanf("%d",&x)
+#define cin_char(x)			scanf("%c",&x)
+#define cout_int(x)			printf("%d",x)
+#define cout_int_ln(x)		printf("%d\n",x)
+#define cout_char(x)		printf("%c",x)
+#define cout_char_ln(x)		printf("%c\n",x)
+#define clr(v, d)           memset(v, d, sizeof(v))
+#define rep(i, v)       for(int i=0;i<sz(v);++i)
+#define lp(i, n)        for(int i=0;i<(int)(n);++i)
+#define lpi(i, j, n)    for(int i=(j);i<(int)(n);++i)
+#define lpd(i, j, n)    for(int i=(j);i>=(int)(n);--i)
+#define max(i,j)        ((i>j)?i:j)
+ 
+typedef long long         ll;
+const ll OO = 1e11+2;
+ const int INF = (int)1e6+2;
+
+const double EPS = (1e-7);
+int dcmp(double x, double y) {  return fabs(x-y) <= EPS ? 0 : x < y ? -1 : 1; }
+ 
+#define pb                  push_back
+#define MP                  make_pair
+#define P(x)                cout<<#x<<" = { "<<x<<" }\n"
+#define PI acos(-1.00)
+typedef long double       ld;
+typedef vector<int>       vi;
+typedef vector<double>    vd;
+typedef vector< vi >      vvi;
+typedef vector< vd >      vvd;
+typedef pair<int,int> ii;
+typedef pair<int,ii> iii;
+
+int dx[] = {1, -1, 0, 0};
+int dy[] = {0, 0, 1, -1};
+int graph[203][203];
+int V;
+
+int main() {
+
+
+	#ifndef ONLINE_JUDGE
+	freopen("input_here.in", "rt", stdin);
+	// freopen("output_here.out", "wt", stdout);
+	#endif
+	
+	int T,n,m,x,y,cost;
+	string s1,s2;
+	int ss(0);
+	while(scanf("%d%d",&n,&m))
+	{
+		if(n == 0 && m == 0)
+			break;
+		memset(graph,-1,sizeof graph);
+		for (int i = 0; i < 203; ++i)
+		graph[i][i]=0;
+		map<string,int> graph_index;
+		int index(1); 
+		for (int i = 0; i < m; ++i)
+		{
+			cin >> s1 >> s2 >> cost;
+			if(graph_index[s1] == 0) graph_index[s1] = index++;
+			if(graph_index[s2] == 0) graph_index[s2] = index++;
+			// cout << graph_index[s1] << endl;
+			// cout << graph_index[s2] << endl;
+			graph[graph_index[s1]][graph_index[s2]] = graph[graph_index[s2]][graph_index[s1]] = max(cost,graph[graph_index[s2]][graph_index[s1]] );
+			// cout << graph[graph_index[s1]][graph_index[s2]] << endl;
+		}
+		//ford warshal .. maxmini
+		for (int k = 1; k <= n; ++k)
+			for (int i = 1; i <= n; ++i)
+				for (int j = 1; j <= n; ++j)
+					graph[i][j] = graph[j][i] = max(graph[i][j] , min(graph[i][k],graph[k][j]));
+				cin >> s1 >> s2;
+				// for (int i = 1; i <= n; ++i)
+				// {
+				// 	for (int j = 1; j <= n; ++j)
+				// 	{
+				// 		cout << graph[i][j] << " ";
+				// 	}
+				// 	cout << endl;
+				// }
+		printf ("Scenario #%d\n", ++ss);
+		printf("%d tons\n\n",graph[graph_index[s1]][graph_index[s2]]);
+	}
+return 0;
+}

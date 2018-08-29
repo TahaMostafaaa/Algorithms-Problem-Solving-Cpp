@@ -1,0 +1,40 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int main()
+{
+    #ifndef ONLINE_JUDGE
+	freopen("input.in", "rt", stdin);
+	// freopen("output_here.out", "wt", stdout);
+	#endif
+  int T,n,k;
+  cin >> T;
+  int cnt[10] = {0};
+    while(T--)
+  {
+      cin >> n;
+      k = 0;
+        memset(cnt, 0, sizeof cnt);
+      for(int i =1; i <= n;i++)
+      {
+          int num = i;
+          while(num){
+                ++cnt[(num % 10)];
+                num /= 10;
+            }
+      }
+      for(int i =0;i <= 9;i++)
+      {
+          if(i) printf(" ");
+          printf("%d",cnt[i]);
+      }
+      printf("\n");
+
+
+  }
+
+
+
+    return 0;
+}

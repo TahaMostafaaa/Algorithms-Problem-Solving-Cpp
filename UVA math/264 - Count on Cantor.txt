@@ -1,0 +1,42 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int main()
+{
+    #ifndef ONLINE_JUDGE
+	freopen("input.in", "rt", stdin);
+	// freopen("output_here.out", "wt", stdout);
+	#endif
+
+    vector<pair<long,long> > ans;
+    long a=1,b=1;
+    ans.push_back(make_pair(1,1));
+    for(long i =1;i<= 10000000;i++)
+    {
+      //  cout << a << "/" << b << " --> " << endl;
+        if(a == 1 && (b&1))
+            ans.push_back(make_pair(a,++b));
+        else if( a == 1 && !(b&1))
+            ans.push_back(make_pair(++a,--b));
+        else if(b == 1 && !(a&1))
+            ans.push_back(make_pair(++a,b));
+        else if(b == 1 && (a&1))
+            ans.push_back(make_pair(--a,++b));
+        else
+        {
+            if( ( !(a&1) && !(b&1)) || a == b  || ((a&1) && (b&1)))
+            ans.push_back(make_pair(--a,++b));
+            else
+            ans.push_back(make_pair(++a,--b));
+        }
+
+    }
+    long n;
+    while(scanf("%ld",&n) == 1)
+    {
+        printf("TERM %ld IS %ld/%ld\n",n,ans[n-1].first,ans[n-1].second);
+    }
+
+    return 0;
+}

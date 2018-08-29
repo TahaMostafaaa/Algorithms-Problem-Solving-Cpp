@@ -1,0 +1,81 @@
+// ============================================================================
+// Name        : Test.cpp
+// Author      : Taha Mostafa
+// Version     :
+// Copyright   : Your copyright notice
+// Description : Hello World in C++, Ansi-style
+// ============================================================================
+
+#include <bits/stdc++.h>
+
+using namespace std;
+
+#define all(v)              ((v).begin()), ((v).end())
+#define sz(v)               ((int)((v).size()))
+#define cin_int(x)			scanf("%d",&x)
+#define cin_char(x)			scanf("%c",&x)
+#define cout_int(x)			printf("%d",x)
+#define cout_int_ln(x)		printf("%d\n",x)
+#define cout_char(x)		printf("%c",x)
+#define cout_char_ln(x)		printf("%c\n",x)
+#define clr(v, d)           memset(v, d, sizeof(v))
+#define rep(i, v)       for(int i=0;i<sz(v);++i)
+#define lp(i, n)        for(int i=0;i<(int)(n);++i)
+#define lpi(i, j, n)    for(int i=(j);i<(int)(n);++i)
+#define lpd(i, j, n)    for(int i=(j);i>=(int)(n);--i)
+ 
+typedef long long         ll;
+const ll OO = 1e8;
+ 
+const double EPS = (1e-7);
+int dcmp(double x, double y) {  return fabs(x-y) <= EPS ? 0 : x < y ? -1 : 1; }
+ 
+#define pb                  push_back
+#define MP                  make_pair
+#define P(x)                cout<<#x<<" = { "<<x<<" }\n"
+typedef long double       ld;
+typedef vector<int>       vi;
+typedef vector<double>    vd;
+typedef vector< vi >      vvi;
+typedef vector< vd >      vvd;
+typedef vector<string>    vs;
+
+int w[3002],mx[3002],n;
+int memo[3002][6002];
+int value(int id,int cap)
+{
+	
+	int &m = memo[id][cap];
+	if(m != -1)
+		return m;
+	if(id == n || cap < 0)
+		return 0;
+	if(w[id] > cap)
+		return m = value(id+1,cap);
+	return m = max(value(id+1,cap),1+value(id+1,min(mx[id],cap-w[id])));
+}
+
+int main() {
+
+	#ifndef ONLINE_JUDGE
+	freopen("input_here.in", "rt", stdin);
+	#endif
+	
+	
+	while(cin >> n && (n)) {
+		
+		memset(memo,-1,sizeof memo);
+	    for (int i = 0; i < n; ++i)
+	    cin >> w[i] >> mx[i];
+	// int eshta = 0;
+	// for (int i = 0; i < n; ++i)
+	// {
+	// 	eshta = max(eshta,value(0,0))
+	// }
+		cout << value(0,6002) << endl;
+
+	}
+
+
+return 0;
+}

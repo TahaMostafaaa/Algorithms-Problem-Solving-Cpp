@@ -1,0 +1,110 @@
+// ============================================================================
+// Name        : Test.cpp
+// Author      : Mayada
+// Version     :
+// Copyright   : Your copyright notice
+// Description : Hello World in C++, Ansi-style
+// ============================================================================
+
+#include <bits/stdc++.h>
+
+using namespace std;
+
+#define all(v)              ((v).begin()), ((v).end())
+#define sz(v)               ((int)((v).size()))
+#define cin_int(x)			scanf("%d",&x)
+#define cin_char(x)			scanf("%c",&x)
+#define cout_int(x)			printf("%d",x)
+#define cout_int_ln(x)		printf("%d\n",x)
+#define cout_char(x)		printf("%c",x)
+#define cout_char_ln(x)		printf("%c\n",x)
+#define clr(v, d)           memset(v, d, sizeof(v))
+#define rep(i, v)       for(int i=0;i<sz(v);++i)
+#define lp(i, n)        for(int i=0;i<(int)(n);++i)
+#define lpi(i, j, n)    for(int i=(j);i<(int)(n);++i)
+#define lpd(i, j, n)    for(int i=(j);i>=(int)(n);--i)
+#define max(i,j)        ((i>j)?i:j)
+ 
+typedef long long         ll;
+const ll OO = 1e11+2;
+ const int INF = (int)1e6+2;
+
+const double EPS = (1e-7);
+int dcmp(double x, double y) {  return fabs(x-y) <= EPS ? 0 : x < y ? -1 : 1; }
+ 
+#define pb                  push_back
+#define MP                  make_pair
+#define db(x)                cout<<#x<<" = { "<<x<<" }\n"
+#define PI acos(-1.00)
+typedef long double       ld;
+typedef vector<int>       vi;
+typedef vector<double>    vd;
+typedef vector< vi >      vvi;
+typedef vector< vd >      vvd;
+typedef pair<int,int> ii;
+typedef pair<int,ii> iii;
+
+int dx[] = {1, -1, 0, 0};
+int dy[] = {0, 0, 1, -1};
+
+int req;
+int T,n,nn,nnn;
+int dp[151][202][52];
+int solve(int coke,int n5,int n10)
+{
+	int n1 = (coke*8) - ( (nn - n5)*5 + (nnn - n10)*10);
+     n1 = (n - n1);
+	if(coke == req) return 0;
+	int &ret = dp[coke][n5][n10];
+	if(ret != -1) return ret; ret = 1e8;
+
+	if(n10 >= 1) ret = min(ret , solve(coke+1,n5,n10-1)+1);
+	if(n10 >= 1 && n1 >= 3) ret = min(ret , solve(coke+1,n5+1,n10-1)+4);
+	if(n5>=2) ret = min(ret , solve(coke+1,n5-2,n10)+2);
+	if(n5 >= 1 && n1 >= 3) ret = min(ret , solve(coke+1,n5-1,n10)+4);
+	if(n1 >= 8) ret = min(ret , solve(coke+1,n5,n10)+8);
+	return ret;
+}
+
+int main() {
+
+
+	#ifndef ONLINE_JUDGE
+	freopen("input_here.in", "rt", stdin);
+	// freopen("output_here.out", "wt", stdout);
+	#endif
+
+	scanf("%d",&T);
+	
+	while(T--) {
+	  cin_int(req);
+	  memset(dp,-1,sizeof dp);
+	  cin >> n >> nn >> nnn;
+	 for (int coke = req; coke >= 0; coke--)
+	 {
+	 	for (int n5 = 0; n5 <= 200; n5++)
+	 	{
+	 		for (int n10 = 0; n10 <= 50; n10++)
+	 		{
+	 			if(coke == req)
+	 				dp[coke][n5][n10] = 0;
+	 			else
+	 			{
+	 				int &ret = dp[coke][n5][n10];
+	 					ret = 1e6;
+					int n1 = (coke*8) - ( (nn - n5)*5 + (nnn - n10)*10);
+				     n1 = (n - n1);
+				    	if(n10 >= 1) ret = min(ret , dp[coke+1][n5][n10-1]+1);
+						if(n10 >= 1 && n1 >= 3) ret = min(ret , dp[coke+1][n5+1][n10-1]+4);
+						if(n5>=2) ret = min(ret , dp[coke+1][n5-2][n10]+2);
+						if(n5 >= 1 && n1 >= 3) ret = min(ret , dp[coke+1][n5-1][n10]+4);
+						if(n1 >= 8) ret = min(ret , dp[coke+1][n5][n10]+8);
+
+	 			}
+	 		}
+	 	}
+	 }
+	 cout << dp[0][nn][nnn] << endl;
+	}
+return 0;
+}

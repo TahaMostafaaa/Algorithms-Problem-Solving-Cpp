@@ -1,0 +1,105 @@
+// ============================================================================
+// Name        : Test.cpp
+// Author      : Taha Mostafa
+// Version     :
+// Copyright   : Your copyright notice
+// Description : Hello World in C++, Ansi-style
+// ============================================================================
+
+#include <bits/stdc++.h>
+
+using namespace std;
+
+#define all(v)              ((v).begin()), ((v).end())
+#define sz(v)               ((int)((v).size()))
+#define cin_int(x)			scanf("%d",&x)
+#define cin_char(x)			scanf("%c",&x)
+#define cout_int(x)			printf("%d",x)
+#define cout_int_ln(x)		printf("%d\n",x)
+#define cout_char(x)		printf("%c",x)
+#define cout_char_ln(x)		printf("%c\n",x)
+#define clr(v, d)           memset(v, d, sizeof(v))
+#define rep(i, v)       for(int i=0;i<sz(v);++i)
+#define lp(i, n)        for(int i=0;i<(int)(n);++i)
+#define lpi(i, j, n)    for(int i=(j);i<(int)(n);++i)
+#define lpd(i, j, n)    for(int i=(j);i>=(int)(n);--i)
+ 
+typedef long long         ll;
+const ll OO = 1e8;
+ 
+const double EPS = (1e-7);
+int dcmp(double x, double y) {  return fabs(x-y) <= EPS ? 0 : x < y ? -1 : 1; }
+ 
+#define pb                  push_back
+#define MP                  make_pair
+#define P(x)                cout<<#x<<" = { "<<x<<" }\n"
+typedef long double       ld;
+typedef vector<int>       vi;
+typedef vector<double>    vd;
+typedef vector< vi >      vvi;
+typedef vector< vd >      vvd;
+typedef vector<string>    vs;
+
+int n,t,w;
+int d[33],g[33];
+int memo[33][1003];
+bool taken[33][1003];
+int adkda=0;
+deque<int> odd;
+
+int ans(int id,int time)
+{
+	if(id == n)
+	 return 0;
+	if(taken[id][time])
+	{
+		odd.push_back(id);
+		return ans(id+1,time - (3*w*d[id])) + 1;
+	}
+	else
+		return ans(id+1,time);
+}
+
+int value(int id, int time) {
+  if (id == n || time == 0) return 0;
+ 	int &m = memo[id][time];
+ 	if(m != -1)
+ 		return m;
+ 	 m = value(id + 1, time);
+  if (3*w*d[id] <= time)      
+  {
+	  	int choice = g[id]+value(id+1,time-(3*w*d[id]));
+	  if(m < choice)
+	  {
+	  	m = choice;
+	  	taken[id][time]=1;
+	  }
+	}
+  return m;
+}
+int main() {
+	#ifndef ONLINE_JUDGE
+	freopen("input_here.in", "rt", stdin);
+	#endif
+bool first =0;
+while(scanf("%d %d", &t, &w) != EOF) {
+    scanf("%d", &n);
+    for (int i = 0; i < n; i++)
+            scanf("%d %d", d+i, g+i);
+         memset(memo, -1, sizeof memo);
+         memset(taken, 0, sizeof taken);
+         if(first)
+         	printf("\n");
+         else first =1;
+         printf("%d\n",value(0,t));
+         odd.clear();
+          printf("%d\n",ans(0,t));
+          for (int i = 0; i < odd.size(); ++i)
+          	printf("%d %d\n",d[odd[i]],g[odd[i]]);
+          
+
+}
+
+
+return 0;
+}

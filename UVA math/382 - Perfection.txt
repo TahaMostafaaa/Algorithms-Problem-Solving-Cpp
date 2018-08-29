@@ -1,0 +1,39 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int main()
+{
+    #ifndef ONLINE_JUDGE
+	freopen("input.in", "rt", stdin);
+	// freopen("output_here.out", "wt", stdout);
+	#endif
+   int n;
+   long long sum;
+   bool ab;
+   printf("PERFECTION OUTPUT\n");
+   while(cin >> n && n != 0)
+   {
+        sum=0;
+        ab = false;
+       for (int i = 1; i < n; i++) {
+			if (n % i == 0)
+				sum += i;
+			if (sum > n) {
+				ab = true;
+				break;
+			}
+		}
+		printf("%5d  ", n);
+		if(ab)
+            printf("ABUNDANT\n");
+        else if (sum == n)
+            printf("PERFECT\n");
+        else
+            printf("DEFICIENT\n");
+   }
+   printf("END OF OUTPUT\n");
+
+
+    return 0;
+}

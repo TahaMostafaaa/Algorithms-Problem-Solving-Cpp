@@ -1,0 +1,331 @@
+// ============================================================================
+// Name        : Test.cpp
+// Author      : Taha Mostafa
+// Version     :
+// Copyright   : Your copyright notice
+// Description : Hello World in C++, Ansi-style
+// ============================================================================
+
+#include <bits/stdc++.h>
+
+using namespace std;
+
+#define all(v)              ((v).begin()), ((v).end())
+#define sz(v)               ((int)((v).size()))
+#define cin_int(x)			scanf("%d",&x)
+#define cin_char(x)			scanf("%c",&x)
+#define cout_int(x)			printf("%d",x)
+#define cout_int_ln(x)		printf("%d\n",x)
+#define cout_char(x)		printf("%c",x)
+#define cout_char_ln(x)		printf("%c\n",x)
+#define clr(v, d)           memset(v, d, sizeof(v))
+#define rep(i, v)       for(int i=0;i<sz(v);++i)
+#define lp(i, n)        for(int i=0;i<(int)(n);++i)
+#define lpi(i, j, n)    for(int i=(j);i<(int)(n);++i)
+#define lpd(i, j, n)    for(int i=(j);i>=(int)(n);--i)
+#define max(i,j)        ((i>j)?i:j)
+ 
+typedef long long         ll;
+const ll OO = 1e11+2;
+ const int INF = (int)1e6+2;
+
+const double EPS = (1e-7);
+int dcmp(double x, double y) {  return fabs(x-y) <= EPS ? 0 : x < y ? -1 : 1; }
+ 
+#define pb                  push_back
+#define MP                  make_pair
+#define P(x)                cout<<#x<<" = { "<<x<<" }\n"
+#define PI acos(-1)
+typedef long double       ld;
+typedef vector<int>       vi;
+typedef vector<double>    vd;
+typedef vector< vi >      vvi;
+typedef vector< vd >      vvd;
+typedef vector<string>    vs;
+typedef pair<int,int> ii;
+typedef pair<int,ii> iii;
+
+int dx[] = {1, -1, 0, 0};
+int dy[] = {0, 0, 1, -1};
+// vector<string> v;
+// int n,m;
+// // bool cycle = 0;
+// // bool vis[52][52];
+// char change(char a)
+// {
+// 	if (a == 'U')
+// 		return 'R';
+// 	if(a == 'R')
+// 		return 'D';
+// 	if(a == 'D')
+// 		return 'L';
+
+// 	return 'U';
+// }
+
+// int test=0;
+// int r,c;
+// void changeRC(char pos)
+// {
+// 	if(pos == 'U')
+// 		r--;
+// 	else if(pos == 'R')
+// 		c++;
+// 	else if (pos == 'D')
+// 		r++;
+// 	else
+// 		c--;
+// }
+// int all=1;
+// void floodfill(char pos)
+// {
+// 	line1:
+// 	int x = r,y = c;
+// 		changeRC(pos);
+// 		for (int i = 0; i < 3; ++i)
+// 	if(r < 0 || r >= n || c < 0 || c >= m) 
+// 		{
+// 			r= x; c = y;
+// 			pos = change(pos),test++;
+// 			changeRC(pos);
+// 			cout << "Change from " <<x <<" "<<y<<" to " << r << " " << c << endl;
+// 		}
+		
+// 		// cout << "------------" << endl;
+// 	// if(test == 3)
+// 	// 	return ;
+	
+// 	if(v[r][c] != '.' && test >= 4) return;
+// 	else if(v[r][c] != '.')
+// 	{
+// 		 test++;
+// 		pos = change(pos);
+// 			cout << "Change from " <<x <<" "<<y<<" to " << r << " " << c << endl;
+// 		goto line1;
+
+// 	}
+// 	else
+// 	 all++,test=0;
+// 	v[r][c] = '$';
+	
+	
+// 	cout <<"Iam here "<< r << " " << c << endl;
+// 	cout <<"i get now "<< all << " in " << v[r][c] << endl;
+// 	cout << "Order "<< pos << endl;
+// 	cout << "------------" << endl;
+// 	floodfill(pos);
+	
+	
+// }
+
+// pair<int, int> diameter(int i, int par = -1)
+// {
+//     int diam = 0;
+//     int mxHeights[3] = {-1, -1, -1};    // keep 2 highest trees
+ 
+//     for(int j=0; j < adjLst[i].size();j++) if(adjLst[i][j] != par)
+//     {
+
+//         pair<int, int> p = diameter(adjLst[i][j], i);
+//         diam = max(diam, p.first);
+ 
+//         // Keep only the 2 maximum children
+//         mxHeights[0] = p.second+1;
+//         sort(mxHeights, mxHeights+3);
+       
+//     }
+ 	
+//     for(int i =0; i < 3;i++) if(mxHeights[i] == -1)
+//         mxHeights[i] = 0;
+ 	
+//     diam = max(diam, mxHeights[1] + mxHeights[2]);
+ 
+//     return make_pair(diam, mxHeights[2]);
+// }
+vector<vector<ii> > adjLst;
+bool taken[200001];
+priority_queue<ii> pq;
+void process(int vtx)
+{
+	taken[vtx] = 1;
+	for (int i = 0; i < adjLst[vtx].size(); ++i)
+	{
+		ii v = adjLst[vtx][i];
+		if(!taken[v.first])
+			pq.push(MP(-v.second,v.first));
+	}
+}
+int main() {
+
+	#ifndef ONLINE_JUDGE
+	freopen("input_here.in", "rt", stdin);
+	// freopen("output_here.out", "wt", stdout);
+	#endif
+	ios :: sync_with_stdio(false);
+	
+	int n,m;
+	while(cin >> n >> m )
+	{
+		if(!m && !n)
+			break;
+	int all_weight(0),x,y,ww;
+	adjLst.resize(n+1);
+	adjLst.clear();
+	memset(taken,0,sizeof taken);
+	for (int i = 0; i < m; ++i)
+	{
+			cin >> x >> y >> ww;
+			adjLst[x].push_back(MP(y,ww));
+			adjLst[y].push_back(MP(x,ww));
+			all_weight+=ww;
+	}
+	// MST
+	pq = priority_queue <ii>(); // reset
+	process(0);
+	int mst_cost(0);
+	while(!pq.empty()) {
+	    ii front = pq.top();
+	    pq.pop();
+	    int u = front.second, w = -front.first;
+	    if(!taken[u])
+	    	mst_cost+=w,process(u);
+	}
+	cout << all_weight - mst_cost << endl;
+
+
+}
+		
+
+		// level[start] = 0;
+		// first = 0;
+		// start = dfs(start);
+		// cout << start << endl;
+		// memset(dfs_num,0,sizeof dfs_num);
+		// // memset(level,0,sizeof level);
+		// level[start] = 0;
+		// int tmp = dfs(start);
+		// cout <<level[start] << endl;
+		
+		// cout << n-(diamteter+1) << endl;
+	   
+	
+
+	// cin >> n >> m;
+	// v.resize(n);
+	// for (int i = 0; i < n; ++i)
+	// 	cin >> v[i];
+	// int ans(0);
+	// for (int i = 0; i < n; ++i)
+	// {
+	// 	for (int j = 0; j < m; ++j)
+	// 	{
+	// 		if(v[i][j] != '.' && v[i][j] != '*')
+	// 			{
+	// 				char tmp = v[i][j];
+	// 				 // v[i][j] = '.';
+	// 				 r = i,c = j;
+	// 				 floodfill(tmp);
+	// 				 cout << all << endl;
+	// 				return 0;
+	// 			}
+	// 	}
+	// }
+
+	
+	// int n,m,a,b,w;
+	// while(1)
+	// {
+	// 	cin >> n;
+	// 	int dp[102][102];
+	// 	memset(dp,-102,sizeof dp);
+	// 	if(n == -1)
+	// 		break;
+	// vector< vector<ii> > adjMax(n+1);
+	// 	int i = 1;
+	// 	bool pos_cycle = 0;
+	// 	bool nag_cycle = 0;
+	// 	while (cin >> w >> m)
+	// 	{
+	// 		if(!w && !m)
+	// 			break;
+	// 		for (int j = 0; j < m; ++j)
+	// 		{
+	// 			cin >> b;
+	// 			adjMax[i].push_back(MP(b,w));
+	// 			dp[i][b] = w;
+	// 			if(dp[b][i] == -102)
+	// 				continue;
+	// 			int test = max(dp[i][b],dp[b][i]) -  min(dp[i][b],dp[b][i]);
+	// 			if(test <= 0)
+	// 				nag_cycle=1;
+	// 			else
+	// 				pos_cycle=1;
+	// 		}
+	// 		i++;
+	// 	}
+			
+
+	// int my_enrgy = 100;
+	// bool success = 0;
+
+
+	// // dijkstra
+	// vi dist(n+1,-10002);
+	// dist[1]=100;
+	// priority_queue< ii , vector<ii> , greater<ii> > pq;
+	// pq.push(MP(100,1));
+	// while(!pq.empty()) {
+	//     ii front = pq.top();
+	//     pq.pop();
+	//      int d =  front.first, u = front.second;
+	//     if(d > dist[u])
+	//     	continue;
+	//     for (int i = 0; i < adjMax[u].size(); ++i)
+	//     {
+	//     	ii v = adjMax[u][i];
+	//     	int cost = dist[u] + v.second;
+	//     	if(cost > dist[v.first] && cost < 10024 && cost > 0)
+	//     	{
+	//     		dist[v.first] = cost;
+	//     		// if(cost >= 10010)
+	//     		// 	{success = 1;}
+	//     		pq.push(MP(dist[v.first],v.first));
+	//     	}
+	//     }
+	// }
+
+	
+	// // 	for (int i = 0; i < dist.size(); ++i)
+	// // {
+	// // 		cout << dist[i] << endl;
+	// // }
+	// // // bellman
+	// // vi dist(n+1,-10002);
+	// // dist[1]=100;
+	// // for (int i = 1; i < n; ++i)
+	// // {
+	// // 	for (int u = 1; u < n+1; ++u)
+	// // 	{
+	// // 		for (int j = 0; j < adjMax[u].size(); ++j)
+	// // 		{
+	// // 			ii v = adjMax[u][j];
+	// // 			int cost = dist[u] + v.second;
+	// // 			// if(dist[v.first] > cost && cost > 0)
+	// // 			// 	dist[v.first] = cost;
+	// // 			dist[v.first] = max(dist[v.first],dist[u] + v.second); 
+	// // 		}
+	// // 	}
+	// // }
+	// // cout << dist[n] << endl;
+	// puts((dist[n] <= 0 ) ? "hopeless" : "winnable");
+
+
+	
+	
+	// }
+	
+
+	
+return 0;
+
+}

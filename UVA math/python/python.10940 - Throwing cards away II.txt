@@ -1,0 +1,24 @@
+# -*- coding: utf-8 -*-
+import sys
+ans = [None] * 500001
+def fun():
+    nxt = 2
+    ans[1] = 1
+    ans[2] = 2
+    for i in range(3,500001):
+         if i < nxt:
+            nxt = 2
+         ans[i] = nxt
+         nxt += 2
+     
+
+fun()
+while 1:
+    input_var = input()
+    if input_var == "0":
+        break
+    print(ans[int(input_var)])
+    
+    
+
+

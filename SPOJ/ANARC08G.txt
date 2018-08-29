@@ -1,0 +1,50 @@
+#include <bits/stdc++.h>
+// Taha Mostafa
+
+using namespace std;
+
+int mat[1002][1002];
+int main()
+{
+    #ifndef ONLINE_JUDGE
+	freopen("input.in", "rt", stdin);
+	// freopen("output_here.out", "wt", stdout);
+	#endif
+	ios_base::sync_with_stdio(false);
+	int T;
+	int cnt=1;
+	while(cin >> T && T)
+    {
+        vector<int> cal(T,0);
+        int sum=0,sum_all=0;
+     //   cout << "done";
+        for(int i =0; i < T;i++)
+            {
+                sum=0;
+                for(int j=0; j < T;j++)
+                    {
+                        cin >> mat[i][j];
+                        sum += mat[i][j];
+                    }
+                    sum_all+=sum;
+                    cal[i] = sum;
+            }
+
+        // ------------------------
+        int ans = 0;
+            for(int i =0; i < T;i++)
+            {
+                sum = 0;
+                for(int j=0; j < T;j++)
+                    {
+                        sum += mat[j][i];
+                    }
+                    ans += (cal[i] -= sum)>0 ? cal[i] : 0;
+            }
+            cout << cnt << ". " << sum_all << " " << ans << endl;
+            cnt++;
+    }
+
+
+    return 0;
+}

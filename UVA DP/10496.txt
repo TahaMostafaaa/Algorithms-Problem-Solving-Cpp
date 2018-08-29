@@ -1,0 +1,83 @@
+// ============================================================================
+// Name        : Test.cpp
+// Author      : Taha Mostafa
+// Version     :
+// Copyright   : Your copyright notice
+// Description : Hello World in C++, Ansi-style
+// ============================================================================
+
+#include <bits/stdc++.h>
+
+using namespace std;
+
+#define all(v)              ((v).begin()), ((v).end())
+#define sz(v)               ((int)((v).size()))
+#define cin_int(x)			scanf("%d",&x)
+#define cin_char(x)			scanf("%c",&x)
+#define cout_int(x)			printf("%d",x)
+#define cout_int_ln(x)		printf("%d\n",x)
+#define cout_char(x)		printf("%c",x)
+#define cout_char_ln(x)		printf("%c\n",x)
+#define clr(v, d)           memset(v, d, sizeof(v))
+#define rep(i, v)       for(int i=0;i<sz(v);++i)
+#define lp(i, n)        for(int i=0;i<(int)(n);++i)
+#define lpi(i, j, n)    for(int i=(j);i<(int)(n);++i)
+#define lpd(i, j, n)    for(int i=(j);i>=(int)(n);--i)
+ 
+typedef long long         ll;
+const ll OO = 1e8;
+ 
+const double EPS = (1e-7);
+int dcmp(double x, double y) {  return fabs(x-y) <= EPS ? 0 : x < y ? -1 : 1; }
+ 
+#define pb                  push_back
+#define MP                  make_pair
+#define P(x)                cout<<#x<<" = { "<<x<<" }\n"
+typedef long double       ld;
+typedef vector<int>       vi;
+typedef vector<double>    vd;
+typedef vector< vi >      vvi;
+typedef vector< vd >      vvd;
+typedef vector<string>    vs;
+
+int n;
+int dis[22][22],x[22],y[22];
+int memo[11][1 << 11];
+
+int tsp(int pos,int bm)
+{
+	int &m = memo[pos][bm];
+	if( bm == (1 << n+1)-1 ) // in the end pos 
+	return dis[pos][0];  // return to the first node
+	if(m != -1)
+		return m;
+	int ans = INT_MAX;
+	for (int nxt = 0; nxt <= n; nxt++)
+	if(nxt != pos && !(bm &(1<<nxt)))
+		ans = min(ans,dis[pos][nxt]+tsp(nxt,bm | (1<<nxt)));
+	return m = ans;
+
+}
+
+int main() {
+
+	#ifndef ONLINE_JUDGE
+	freopen("input_here.in", "rt", stdin);
+	#endif
+	int T,x1,y1;
+	cin >> T;
+	while(T--) {
+	    cin >> x1 >> y1;
+	    cin >> x[0] >> y[0];
+	    cin >> n;
+	    for (int i = 1; i <= n; ++i)
+	    cin >> x[i] >> y[i];
+	    for (int i = 0; i <= n; ++i)
+	    	for (int j = 0; j <= n; ++j)
+	            dis[i][j] = abs(x[i]-x[j])+abs(y[i]-y[j]);
+		memset(memo,-1,sizeof memo);
+		cout << "The shortest path has length " << tsp(0,1) << endl;
+	}
+
+return 0;
+}

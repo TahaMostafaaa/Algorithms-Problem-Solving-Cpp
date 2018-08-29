@@ -1,0 +1,120 @@
+// ============================================================================
+// Name        : Test.cpp
+// Author      : Taha Mostafa
+// Version     :
+// Copyright   : Your copyright notice
+// Description : Hello World in C++, Ansi-style
+// ============================================================================
+
+#include <bits/stdc++.h>
+
+using namespace std;
+
+#define all(v)              ((v).begin()), ((v).end())
+#define sz(v)               ((int)((v).size()))
+#define cin_int(x)			scanf("%d",&x)
+#define cin_char(x)			scanf("%c",&x)
+#define cout_int(x)			printf("%d",x)
+#define cout_int_ln(x)		printf("%d\n",x)
+#define cout_char(x)		printf("%c",x)
+#define cout_char_ln(x)		printf("%c\n",x)
+#define clr(v, d)           memset(v, d, sizeof(v))
+#define rep(i, v)       for(int i=0;i<sz(v);++i)
+#define lp(i, n)        for(int i=0;i<(int)(n);++i)
+#define lpi(i, j, n)    for(int i=(j);i<(int)(n);++i)
+#define lpd(i, j, n)    for(int i=(j);i>=(int)(n);--i)
+ 
+typedef long long         ll;
+const ll OO = 1e8;
+ 
+const double EPS = (1e-7);
+int dcmp(double x, double y) {  return fabs(x-y) <= EPS ? 0 : x < y ? -1 : 1; }
+ 
+#define pb                  push_back
+#define MP                  make_pair
+#define P(x)                cout<<#x<<" = { "<<x<<" }\n"
+typedef long double       ld;
+typedef vector<int>       vi;
+typedef vector<double>    vd;
+typedef vector< vi >      vvi;
+typedef vector< vd >      vvd;
+typedef vector<string>    vs;
+vi hena;
+vi path;
+int memo[1002][1002];
+bool taken[1002][1002];
+void print(int id,int prev)
+{
+	if(id == hena.size())
+		return;
+	if(taken[id][prev])
+	{
+		path.push_back(id);
+		print(id+1,id);
+	}
+	else
+		print(id+1,prev);
+}
+int LIS(int id,int prev)
+{
+	if(id == hena.size())
+		return 0;
+	int &m = memo[id][prev];
+	if(m != -1)
+		{ return m;}
+	m = LIS(id+1,prev);
+	int choice = 0;
+	if(prev == hena.size() || hena[prev] < hena[id])
+		choice = LIS(id+1,id)+1;
+	if(choice > m)
+	{
+		taken[id][prev]=1;
+		m = choice;
+	}
+	// cout << id << " >> " <<memo[id][prev] << endl;
+	return m;
+}
+
+int main() {
+
+	#ifndef ONLINE_JUDGE
+	freopen("input_here.in", "rt", stdin);
+	#endif
+		int T;
+	
+	string s;
+	getline(cin,s);
+	stringstream ss(s);
+	ss >> T;
+	getline(cin,s);
+	while(T--) {
+		// getline(cin,s);
+		memset(memo,-1,sizeof memo);
+		memset(taken,0,sizeof taken);
+		hena.clear();
+		path.clear();
+		
+		// getline(cin,s);
+	    while(getline(cin,s) && s != "")
+	    {
+
+	    	stringstream ss(s);
+	    	int num;
+	    	ss >> num;
+	    	hena.push_back(num);
+	    	// path.push_back(0);
+	    }
+// for (int i = 0; i < hena.size(); i++)
+// 	cout << hena[i] << " ";
+// cout << endl;
+	    cout << "Max hits: " << LIS(0,hena.size()) << endl;
+	    print(0,hena.size());
+	    for (int i = 0; i < path.size(); i++)
+	    cout << hena[path[i]] << endl;
+	if(T)
+	 cout << endl;
+	}
+
+
+return 0;
+}

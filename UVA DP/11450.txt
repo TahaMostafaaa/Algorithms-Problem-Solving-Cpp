@@ -1,0 +1,86 @@
+// ============================================================================
+// Name        : Test.cpp
+// Author      : Taha Mostafa
+// Version     :
+// Copyright   : Your copyright notice
+// Description : Hello World in C++, Ansi-style
+// ============================================================================
+
+#include <bits/stdc++.h>
+
+using namespace std;
+
+#define all(v)              ((v).begin()), ((v).end())
+#define sz(v)               ((int)((v).size()))
+#define cin_int(x)			scanf("%d",&x)
+#define cin_char(x)			scanf("%c",&x)
+#define cout_int(x)			printf("%d",x)
+#define cout_int_ln(x)		printf("%d\n",x)
+#define cout_char(x)		printf("%c",x)
+#define cout_char_ln(x)		printf("%c\n",x)
+#define clr(v, d)           memset(v, d, sizeof(v))
+#define rep(i, v)       for(int i=0;i<sz(v);++i)
+#define lp(i, n)        for(int i=0;i<(int)(n);++i)
+#define lpi(i, j, n)    for(int i=(j);i<(int)(n);++i)
+#define lpd(i, j, n)    for(int i=(j);i>=(int)(n);--i)
+ 
+typedef long long         ll;
+const ll OO = 1e8;
+ 
+const double EPS = (1e-7);
+int dcmp(double x, double y) {  return fabs(x-y) <= EPS ? 0 : x < y ? -1 : 1; }
+ 
+#define pb                  push_back
+#define MP                  make_pair
+#define P(x)                cout<<#x<<" = { "<<x<<" }\n"
+typedef long double       ld;
+typedef vector<int>       vi;
+typedef vector<double>    vd;
+typedef vector< vi >      vvi;
+typedef vector< vd >      vvd;
+typedef vector<string>    vs;
+
+int t,m,c,loop;
+int wedding[25][25];
+int memo[210][25];
+const int MAX = 151;
+int solve(int money,int cot)
+{
+	if(money < 0)
+		return INT_MIN;
+	if( cot == c)
+		return m - money;
+	if(memo[money][cot] != -1)
+		return memo[money][cot];
+	int mx = -1;
+	for (int i = 1; i <= wedding[cot][0]; i++)
+		mx = max(mx,solve(money - wedding[cot][i], cot+1));
+		return memo[money][cot] = mx;
+
+}
+int main() {
+	#ifndef ONLINE_JUDGE
+	freopen("input_here.in", "rt", stdin);
+	#endif
+
+
+cin >> t;
+
+while(t--) {
+    cin >> m >> c;
+    for (int i = 0; i < c; ++i)
+    {
+    	cin >> wedding[i][0];
+    	for (int j = 1; j <= wedding[i][0]; ++j)
+    	cin >> wedding[i][j];
+    }
+    memset(memo,-1,sizeof memo);
+    int sol = solve(m,0);
+    if (sol < 0) cout << "no solution";
+    else cout << sol;
+    cout << endl;
+}
+
+
+return 0;
+}

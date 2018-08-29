@@ -1,0 +1,185 @@
+// ============================================================================
+// Name        : Test.cpp
+// Author      : Taha Mostafa
+// Version     :
+// Copyright   : Your copyright notice
+// Description : Hello World in C++, Ansi-style
+// ============================================================================
+
+#include <bits/stdc++.h>
+
+using namespace std;
+
+#define all(v)              ((v).begin()), ((v).end())
+#define sz(v)               ((int)((v).size()))
+#define cin_int(x)			scanf("%d",&x)
+#define cin_char(x)			scanf("%c",&x)
+#define cout_int(x)			printf("%d",x)
+#define cout_int_ln(x)		printf("%d\n",x)
+#define cout_char(x)		printf("%c",x)
+#define cout_char_ln(x)		printf("%c\n",x)
+#define clr(v, d)           memset(v, d, sizeof(v))
+#define rep(i, v)       for(int i=0;i<sz(v);++i)
+#define lp(i, n)        for(int i=0;i<(int)(n);++i)
+#define lpi(i, j, n)    for(int i=(j);i<(int)(n);++i)
+#define lpd(i, j, n)    for(int i=(j);i>=(int)(n);--i)
+#define max(i,j)        ((i>j)?i:j)
+ 
+typedef long long         ll;
+const ll OO = 1e8;
+ const int INF = (int)1e6;
+
+const double EPS = (1e-7);
+int dcmp(double x, double y) {  return fabs(x-y) <= EPS ? 0 : x < y ? -1 : 1; }
+ 
+#define pb                  push_back
+#define MP                  make_pair
+#define P(x)                cout<<#x<<" = { "<<x<<" }\n"
+#define PI acos(-1)
+typedef long double       ld;
+typedef vector<int>       vi;
+typedef vector<double>    vd;
+typedef vector< vi >      vvi;
+typedef vector< vd >      vvd;
+typedef vector<string>    vs;
+typedef pair<int,int> ii;
+typedef pair<int,ii> iii;
+
+
+	struct node
+{
+	int val,level;
+	bool vis;
+	node *left;
+	node *right;
+	node(int v,int level)
+	{
+		this->vis = 0;
+		this->val = v;
+		this->level = level;
+		left = right = NULL;
+	}
+	
+};
+class tree
+{
+
+public:
+	node *root = new node(-1,0);
+	int depth= 0,num_of_add_nodes=0,num_of_all_nodes=1;
+	bool complete = 1;
+	void destroy()
+	{	
+		root = new node(-1,0);
+		depth=0,num_of_add_nodes=0,num_of_all_nodes=1;
+		complete = 1;
+	}
+	 void insert(node* start,string s,int value)
+	{
+		
+		num_of_add_nodes++;
+		
+		for (int i = 0; i < s.size(); ++i)
+		{
+			node *next1;
+			if(s[i] == 'L')
+			{
+				if(start->left == NULL)
+				{	
+					num_of_all_nodes++;
+					next1 = new node(-1,start->level+1);
+					start->left = next1;
+					// cout << "LEFT" << endl;
+				}
+				start = start->left;
+			}
+			else
+			{
+				
+				if(start->right == NULL)
+				{	
+					num_of_all_nodes++;
+					next1 = new node(-1,start->level+1);
+					start->right = next1;
+					// cout << "RIGHT" << endl;
+				}
+				start = start->right;
+			}
+			// cout << start->val << endl;
+			
+		}
+		if(start->val != -1)
+			complete = 0;
+		start->val = value;
+		
+	}
+	void bfs(node *start)
+	{
+		queue<node *> q; 
+		q.push(start); 
+		vi p;
+		while(!q.empty()) {
+		    node *next = q.front();
+		     q.pop();
+		    if(next->left != NULL)
+		    	q.push(next->left);
+		    if(next->right != NULL)
+		    	q.push(next->right);
+		    p.push_back(next->val);
+		}
+		// reverse(p.begin(),p.end());
+		for (int i = 0; i < p.size(); ++i)
+		{
+			if(i == p.size()-1)
+				cout << p[i] << endl;
+			else
+				cout << p[i] << " ";
+		}
+	}
+	//  void printit(node* start)
+	// {
+	// 	cout << start->val << " " << start->left->val << " " << start->right->val << endl;
+	// }
+	
+};
+int main() {
+
+	#ifndef ONLINE_JUDGE
+	freopen("input_here.in", "rt", stdin);
+	// freopen("output_here.out", "wt", stdout);
+	#endif
+	string st;
+	tree test;
+	
+	while(cin >> st) {
+	    if(st == "()")
+	    {
+	    	if(test.num_of_all_nodes == test.num_of_add_nodes && test.complete)
+	    	test.bfs(test.root);
+	    	else
+	    		puts("not complete");
+	    	test.destroy();
+	    	// test.printit(test.root);
+	    }
+	    else
+	    {
+	    int pos1,pos2;
+	    pos1 = st.find('(');
+	    pos2 = st.find(',');
+	    string num = st.substr(pos1+1,pos2-1);
+	    stringstream convert(num);
+	    int get_num;
+	    convert >> get_num;
+	    pos1 = st.find(')');
+	    string lev = st.substr(pos2+1,(pos1-pos2)-1);
+	    test.insert(test.root,lev,get_num);
+		}
+	}
+	
+	// test.printit(test.root);
+	
+	
+	
+return 0;
+
+}
